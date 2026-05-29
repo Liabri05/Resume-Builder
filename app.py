@@ -29,7 +29,47 @@ st.write("Paste a job description below to align your experience perfectly with 
 # 4. User Inputs
 # Hardcode your actual master resume text inside the triple quotes below so they don't have to re-paste it.
 MASTER_RESUME = """
-[PASTE YOUR FULL MASTER RESUME EXPERIENCE, EDUCATION, AND SKILLS HERE]
+[
+Pedro Pettenazzi
+Porto, Portugal
+pedrohpettenazzi@email.com
+linkedin.com/in/pedro-pettenazzi-4486053a4
+
+EXPERIENCE
+Consumer Analytics Specialist — Airbnb (2022 through 2025 | Remote)
+Extract actionable insights from high-volume consumer behavioral data to enhance user journeys and search intent.
+● Own the day-to-day tracking of operational KPIs to keep marketing budgets efficient and ensure every campaign meets 100% of our compliance standards.
+Tools: Python · Looker Studio · Excel · Adobe · Jamovi · R 
+RWS Group Remote
+Content Localization Copyeditor (EN>PT) Nov 2024 - Aug 2025
+● Edited and localized AI-generated content for accuracy, tone, and cultural relevance.
+● Collaborated with cross-border editorial teams on large-scale content localization projects.
+● Ensured strict adherence to complex client style guides and regulatory specifications for localized content.
+Freelance Remote
+Kantar Consulting Porto,Portugal
+Marketing Strategy (Intern) Summer 2024
+● Designed data-informed internal campaigns that increased participation and engagement by 60% through behavioral analysis and audience segmentation.
+● Translated complex data reports into strategic briefs for cross-functional teams, aligning commercial outcomes with market trends and optimizing for conversions.
+Designed data-informed internal campaigns that successfully increased participation and engagement by 57% through behavioral analysis.
+● Translated complex data reports into strategic briefs used by diverse departments to align commercial outcomes with market trends.
+Tools: SQL · Excel
+
+CERTIFICATIONS 
+Google Ads
+Google Digital Garage Marketing
+Google Analytics
+
+EDUCATION
+MBA — Marketing & Business Analytics | IPAM The Marketing School (2020 through 2022 | Porto, Portugal)
+Thesis: "Integration of Artificial Intelligence in Consumer Purchase Decisions in Portugal" — original research into how AI-driven personalization shapes buying behavior across Portuguese consumer segments.
+BA — Communication Sciences: Journalism, Multimedia, Public Relations | Universidade do Porto (2016 through 2020 | Porto, Portugal)
+
+SKILLS
+Data & Analytics: Python · Microsoft Excel · Looker Studio · Data Visualization · Consumer Analytics · Market Research
+Strategy & Business: Business Strategy · Strategic Planning · Market Intelligence · Competitive Analysis · Consumer Behaviour · Business Analysis
+Risk & Operations: Risk Management · Vendor Management · Operational Reporting · Audit Support · Compliance · Process Improvement
+Communication & Research: Content Strategy · Copywriting · Research & Insights · Data Storytelling · Stakeholder Presentations · Report Writing
+Languages: English (fluent) · Portuguese (native)]
 """
 
 st.subheader("Target Job Parameters")

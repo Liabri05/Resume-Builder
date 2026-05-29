@@ -104,7 +104,7 @@ if st.button("Generate Tailored Resume", type="primary"):
 
                 # Call Claude (Sonnet 3.5 is the standard gold-medal choice for processing complex mapping instructions)
                 message = client.messages.create(
-                    model="claude-4-6-sonnet",
+                    model="claude-sonnet-4-6",
                     max_tokens=4000,
                     temperature=0.2,
                     messages=[

@@ -91,7 +91,9 @@ if st.button("Generate Tailored Resume", type="primary"):
                 1. Do not invent false experience, tools, metrics, or certifications.
                 2. Dynamically prioritize and highlight the skills, tools, and technical competencies listed in the Master Resume that map directly to the target responsibilities.
                 3. Rewrite bullet points to mirror the professional vocabulary and action verbs used in the job description while maintaining the truth of the original metrics.
-                4. Output ONLY the beautifully formatted markdown of the new resume. Do not include any chat commentary or conversational padding.
+                4. Make resume universally ATS-friendly by ensuring all formatting is simple and consistent, and that keywords are naturally integrated.
+                5. Make candidate as appealing as possible.
+                6. Output ONLY the beautifully formatted markdown of the new resume. Do not include any chat commentary or conversational padding.
                 
                 Target Job Title: {job_title}
                 

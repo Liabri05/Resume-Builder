@@ -2,6 +2,7 @@
 import streamlit as st
 import anthropic
 import time
+from fpdf import FPDF
 
 #Page Config
 st.set_page_config(page_title="AI Resume Tailor", page_icon="📝", layout="centered")
@@ -77,6 +78,16 @@ st.subheader("Target Job Parameters")
 job_title = st.text_input("Job Title", placeholder="e.g., Senior Project Coordinator")
 job_description = st.text_area("Paste the Job Description here:", height=250)
 
+def generate_pdf(text_content):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Helvetica", size=11)
+    for line in text_content.split('\n'):
+        clean_line = line.encode('latin-1', 'ignore').decode('latin-1')
+        pdf.cell(0, 6, txt=clean_line, ln=True)
+    return pdf.output()
+
+
 MAX_REQUESTS = 1
 TIME_WINDOW = 60  # in seconds
 
@@ -145,14 +156,25 @@ if st.button("Generate Tailored Resume", type="primary"):
                 st.success("✨ Optimization Complete!")
                 st.markdown("### Your Tailored Resume")
                 st.markdown(customized_resume)
-                
-                # Add download option for markdown text file
-                st.download_button(
-                    label="Download Markdown File",
-                    data=customized_resume,
-                    file_name=f"Resume_{job_title.replace(' ', '_') if job_title else 'Tailored'}.md",
-                    mime="text/markdown"
-                )
 
+                # Add download option for markdown text file
+                col1, col2 = st.columns(2)
+
+                with col1:
+                    st.download_button(
+                        label="Download Markdown File",
+                        data=customized_resume,
+                        file_name=f"Resume_{job_title.replace(' ', '_') if job_title else 'Tailored'}.md",
+                        mime="text/markdown"
+                    )
+
+                with col2:
+                    pdf_bytes = generate_pdf(customized_resume)
+                    st.download_button(
+                        label="Download PDF Version 📄",
+                        data=bytes(pdf_bytes),
+                        file_name=f"Resume_{job_title.replace(' ', '_') if job_title else 'Tailored'}.pdf",
+                        mime="application/pdf"
+                    )
             except Exception as e:
-                 st.error(f"An infrastructure error occurred during generation: {e}")
+                    st.error(f"An infrastructure error occurred during generation: {e}")

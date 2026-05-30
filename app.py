@@ -160,4 +160,4 @@ if st.button("Generate Tailored Resume", type="primary"):
                 )
 
             except Exception as e:
-                st.error(f"An infrastructure error occurred during generation: {e}")
+                 st.error(f"An infrastructure error occurred during generation: {e}")

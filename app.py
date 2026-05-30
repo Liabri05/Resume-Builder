@@ -1,6 +1,7 @@
 # app.py
 import streamlit as st
 import anthropic
+import time
 
 #Page Config
 st.set_page_config(page_title="AI Resume Tailor", page_icon="📝", layout="centered")
@@ -76,6 +77,35 @@ st.subheader("Target Job Parameters")
 job_title = st.text_input("Job Title", placeholder="e.g., Senior Project Coordinator")
 job_description = st.text_area("Paste the Job Description here:", height=250)
 
+MAX_REQUESTS = 1
+TIME_WINDOW = 60  # in seconds
+
+# Initialize a tracking list in the user's session (unless it already exists)
+if "request_timestamps" not in st.session_state:
+    st.session_state["request_timestamps"] = []
+
+# Trigger 
+if st.button("Generate Tailored Resume", type="primary"):
+    if not job_description:
+        st.warning("Please provide a job description to initiate the optimization process.")
+    else:
+        # CHECK THE RATE LIMIT
+        current_time = time.time()
+        
+        # Clean timestamps older than 60s
+        st.session_state["request_timestamps"] = [
+            t for t in st.session_state["request_timestamps"] if current_time - t < TIME_WINDOW
+        ]
+        
+        # check threshold
+        if len(st.session_state["request_timestamps"]) >= MAX_REQUESTS:
+            oldest_request = st.session_state["request_timestamps"][0]
+            seconds_left = int(TIME_WINDOW - (current_time - oldest_request))
+            st.error(f"🛑 Rate limit exceeded! Please wait {seconds_left} seconds before generating another resume.")
+        else:
+            # log successful click timestamp
+            st.session_state["request_timestamps"].append(current_time)
+            
 # Trigger
 if st.button("Generate Tailored Resume", type="primary"):
     if not job_description:
@@ -83,7 +113,7 @@ if st.button("Generate Tailored Resume", type="primary"):
     else:
         with st.spinner("Claude is analyzing requirements and rewriting keywords..."):
             try:
-                # System instructions ensuring structural integrity and preventing AI hallucinations
+                # System instructions for preventing AI hallucinations
                 prompt_content = f"""
                 You are an expert technical resume writer. Your task is to customize the provided Master Resume to align perfectly with the target Job Description.
                 
@@ -104,7 +134,7 @@ if st.button("Generate Tailored Resume", type="primary"):
                 {MASTER_RESUME}
                 """
 
-                # Call Claude (Sonnet 3.5 is the standard gold-medal choice for processing complex mapping instructions)
+                # Call Claude
                 message = client.messages.create(
                     model="claude-sonnet-4-6",
                     max_tokens=4000,
@@ -121,7 +151,7 @@ if st.button("Generate Tailored Resume", type="primary"):
                 st.markdown("### Your Tailored Resume")
                 st.markdown(customized_resume)
                 
-                # Add a quick download option for the raw Markdown text file
+                # Add download option for markdown text file
                 st.download_button(
                     label="Download Markdown File",
                     data=customized_resume,

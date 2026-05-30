@@ -2,10 +2,10 @@
 import streamlit as st
 import anthropic
 
-# 1. Setup Page Configurations
+#Page Config
 st.set_page_config(page_title="AI Resume Tailor", page_icon="📝", layout="centered")
 
-# 2. Basic Gatekeeper Authentication
+# Basic Authentication
 if "authenticated" not in st.session_state:
     st.session_state["authenticated"] = False
 
@@ -20,13 +20,13 @@ if not st.session_state["authenticated"]:
             st.error("Incorrect password. Please try again.")
     st.stop()
 
-# 3. Initialize Claude Client securely using Secrets
+#Initialize Claude using Secrets
 client = anthropic.Anthropic(api_key=st.secrets["ANTHROPIC_API_KEY"])
 
 st.title("📝 Custom Resume Tailoring Assistant")
 st.write("Paste a job description below to align your experience perfectly with what recruiters are seeking.")
 
-# 4. User Inputs
+#User Inputs
 # Hardcode your actual master resume text inside the triple quotes below so they don't have to re-paste it.
 MASTER_RESUME = """
 [
@@ -76,7 +76,7 @@ st.subheader("Target Job Parameters")
 job_title = st.text_input("Job Title", placeholder="e.g., Senior Project Coordinator")
 job_description = st.text_area("Paste the Job Description here:", height=250)
 
-# 5. Execution Trigger
+# Trigger
 if st.button("Generate Tailored Resume", type="primary"):
     if not job_description:
         st.warning("Please provide a job description to initiate the optimization process.")

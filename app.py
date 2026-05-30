@@ -83,28 +83,23 @@ TIME_WINDOW = 60  # in seconds
 # Initialize a tracking list in the user's session (unless it already exists)
 if "request_timestamps" not in st.session_state:
     st.session_state["request_timestamps"] = []
-
-# Trigger 
-if st.button("Generate Tailored Resume", type="primary"):
-    if not job_description:
-        st.warning("Please provide a job description to initiate the optimization process.")
+else:
+    # CHECK THE RATE LIMIT
+    current_time = time.time()
+    
+    # Clean timestamps older than 60s
+    st.session_state["request_timestamps"] = [
+        t for t in st.session_state["request_timestamps"] if current_time - t < TIME_WINDOW
+    ]
+    
+    # check threshold
+    if len(st.session_state["request_timestamps"]) >= MAX_REQUESTS:
+        oldest_request = st.session_state["request_timestamps"][0]
+        seconds_left = int(TIME_WINDOW - (current_time - oldest_request))
+        st.error(f"🛑 Rate limit exceeded! Please wait {seconds_left} seconds before generating another resume.")
     else:
-        # CHECK THE RATE LIMIT
-        current_time = time.time()
-        
-        # Clean timestamps older than 60s
-        st.session_state["request_timestamps"] = [
-            t for t in st.session_state["request_timestamps"] if current_time - t < TIME_WINDOW
-        ]
-        
-        # check threshold
-        if len(st.session_state["request_timestamps"]) >= MAX_REQUESTS:
-            oldest_request = st.session_state["request_timestamps"][0]
-            seconds_left = int(TIME_WINDOW - (current_time - oldest_request))
-            st.error(f"🛑 Rate limit exceeded! Please wait {seconds_left} seconds before generating another resume.")
-        else:
-            # log successful click timestamp
-            st.session_state["request_timestamps"].append(current_time)
+        # log successful click timestamp
+        st.session_state["request_timestamps"].append(current_time)
             
 # Trigger
 if st.button("Generate Tailored Resume", type="primary"):
